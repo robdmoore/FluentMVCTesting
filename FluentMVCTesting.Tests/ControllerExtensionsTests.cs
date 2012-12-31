@@ -38,7 +38,7 @@ namespace FluentMVCTesting.Tests
         [Test]
         public void Throw_exception_for_child_action_call_to_non_child_action()
         {
-            var exception = Assert.Throws<InvalidControllerActionException>(() => _controller.WithCallToChild(c => c.SomeAction()));
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.InvalidControllerActionException>(() => _controller.WithCallToChild(c => c.SomeAction()));
             Assert.That(exception.Message, Is.EqualTo("Expected action SomeAction of controller ControllerExtensionsController to be a child action, but it didn't have the ChildActionOnly attribute."));
         }
     }

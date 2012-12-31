@@ -75,6 +75,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TestStack.FluentMVCTesting">
+      <HintPath>..\packages\TestStack.FluentMVCTesting.1.0.3\lib\NET40\TestStack.FluentMVCTesting.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControllerExtensionsTests.cs" />

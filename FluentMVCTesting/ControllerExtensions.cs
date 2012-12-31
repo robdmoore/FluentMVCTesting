@@ -6,34 +6,26 @@ namespace FluentMVCTesting
 {
     public static class ControllerExtensions
     {
-
+        [Obsolete("Please use TestStack.FluentMVCTesting.ControllerExtensions.WithModelErrors")]
         public static T WithModelErrors<T>(this T controller) where T : Controller
         {
-            controller.ModelState.AddModelError("Key", "Value");
-            return controller;
+            return TestStack.FluentMVCTesting.ControllerExtensions.WithModelErrors(controller);
         }
 
-        public static ControllerResultTest<T> WithCallTo<T, TAction>(this T controller, Expression<Func<T, TAction>> actionCall)
+        [Obsolete("Please use TestStack.FluentMVCTesting package and uninstall the now obsolete FluentMVCTesting package")]
+        public static TestStack.FluentMVCTesting.ControllerResultTest<T> WithCallTo<T, TAction>(this T controller, Expression<Func<T, TAction>> actionCall)
             where T : Controller
             where TAction : ActionResult
         {
-            var actionName = ((MethodCallExpression)actionCall.Body).Method.Name;
-
-            var actionResult = actionCall.Compile().Invoke(controller);
-
-            return new ControllerResultTest<T>(controller, actionName, actionResult);
+            return TestStack.FluentMVCTesting.ControllerExtensions.WithCallTo(controller, actionCall);
         }
 
-        public static ControllerResultTest<T> WithCallToChild<T, TAction>(this T controller, Expression<Func<T, TAction>> actionCall)
+        [Obsolete("Please use TestStack.FluentMVCTesting.ControllerExtensions.WithCallToChild")]
+        public static TestStack.FluentMVCTesting.ControllerResultTest<T> WithCallToChild<T, TAction>(this T controller, Expression<Func<T, TAction>> actionCall)
             where T : Controller
             where TAction : ActionResult
         {
-            var action = ((MethodCallExpression)actionCall.Body).Method;
-
-            if (!action.IsDefined(typeof(ChildActionOnlyAttribute), false))
-                throw new InvalidControllerActionException(string.Format("Expected action {0} of controller {1} to be a child action, but it didn't have the ChildActionOnly attribute.", action.Name, controller.GetType().Name));
-
-            return controller.WithCallTo(actionCall);
+            return TestStack.FluentMVCTesting.ControllerExtensions.WithCallToChild(controller, actionCall);
         }
     }
 }

@@ -33,10 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\FluentMvcTesting\robdmoore.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -75,6 +72,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TestStack.FluentMVCTesting.Mvc3">
+      <HintPath>..\packages\TestStack.FluentMVCTesting.Mvc3.1.0.3\lib\NET40\TestStack.FluentMVCTesting.Mvc3.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\FluentMvcTesting\ControllerExtensions.cs">
@@ -98,9 +98,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\FluentMvcTesting\robdmoore.snk">
-      <Link>robdmoore.snk</Link>
-    </None>
     <None Include="FluentMVCTesting.Mvc3.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>

@@ -29,7 +29,7 @@ namespace FluentMVCTesting.Tests
         public void Check_for_null_model()
         {
             _viewResult.ViewData.Model = null;
-            var exception = Assert.Throws<ViewResultModelAssertionException>(() =>
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.ViewResultModelAssertionException>(() =>
                 _viewResultTest.WithModel<TestViewModel>()
             );
             Assert.That(exception.Message, Is.EqualTo("Expected view model, but was null."));
@@ -38,7 +38,7 @@ namespace FluentMVCTesting.Tests
         [Test]
         public void Check_for_invalid_model_type()
         {
-            var exception = Assert.Throws<ViewResultModelAssertionException>(() =>
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.ViewResultModelAssertionException>(() =>
                 _viewResultTest.WithModel<InvalidViewModel>()
             );
             Assert.That(exception.Message, Is.EqualTo("Expected view model to be of type 'InvalidViewModel', but it is actually of type 'TestViewModel'."));
@@ -53,7 +53,7 @@ namespace FluentMVCTesting.Tests
         [Test]
         public void Check_for_invalid_model_by_reference()
         {
-            var exception = Assert.Throws<ViewResultModelAssertionException>(() =>
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.ViewResultModelAssertionException>(() =>
                 _viewResultTest.WithModel(new TestViewModel())
             );
             Assert.That(exception.Message, Is.EqualTo("Expected view model to be the given model, but in fact it was a different model."));
@@ -68,7 +68,7 @@ namespace FluentMVCTesting.Tests
         [Test]
         public void Check_for_invalid_model_using_predicate()
         {
-            var exception = Assert.Throws<ViewResultModelAssertionException>(() =>
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.ViewResultModelAssertionException>(() =>
                 _viewResultTest.WithModel<TestViewModel>(m => m.Property1 == null)
             );
             Assert.That(exception.Message, Is.EqualTo("Expected view model to pass the given condition, but it failed."));

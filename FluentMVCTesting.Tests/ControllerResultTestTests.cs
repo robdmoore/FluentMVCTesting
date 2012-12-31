@@ -92,7 +92,7 @@ namespace FluentMVCTesting.Tests
                 : base(expectedMethodName, testCall, validControllerActionCall) { }
         }
         private ControllerResultTestController _controller;
-        public delegate void TestAction(ControllerResultTest<ControllerResultTestController> testClass);
+        public delegate void TestAction(TestStack.FluentMVCTesting.ControllerResultTest<ControllerResultTestController> testClass);
         private static Tuple<string, TestAction> ReturnType<T>(TestAction a)
         {
             return new Tuple<string, TestAction>(typeof(T).Name, a);
@@ -114,7 +114,7 @@ namespace FluentMVCTesting.Tests
         [TestCaseSource("ReturnTypes")]
         public void Check_return_type(Tuple<string, TestAction> test)
         {
-            var exception = Assert.Throws<ActionResultAssertionException>(() =>
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.ActionResultAssertionException>(() =>
                 test.Item2(_controller.WithCallTo(c => c.RandomResult()))
             );
             Assert.That(exception.Message, Is.EqualTo(string.Format("Expected action result to be a {0}, but instead received a RandomResult.", test.Item1)));
@@ -124,7 +124,7 @@ namespace FluentMVCTesting.Tests
         [TestCaseSource("ReturnTypes")]
         public void Check_null_return(Tuple<string, TestAction> test)
         {
-            var exception = Assert.Throws<ActionResultAssertionException>(() =>
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.ActionResultAssertionException>(() =>
                 test.Item2(_controller.WithCallTo(c => c.Null()))
             );
             Assert.That(exception.Message, Is.EqualTo(string.Format("Received null action result when expecting {0}.", test.Item1)));
@@ -148,7 +148,7 @@ namespace FluentMVCTesting.Tests
         public void Check_for_redirect_to_invalid_url()
         {
             const string url = "http://validurl/";
-            var exception = Assert.Throws<ActionResultAssertionException>(() =>
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.ActionResultAssertionException>(() =>
                 _controller.WithCallTo(c => c.RedirectToUrl()).ShouldRedirectTo(url)
             );
             Assert.That(exception.Message, Is.EqualTo(string.Format("Expected redirect to URL '{0}', but instead was given a redirect to URL '{1}'.", url, ControllerResultTestController.RedirectUrl)));
@@ -164,7 +164,7 @@ namespace FluentMVCTesting.Tests
         public void Check_for_redirect_to_invalid_route_name()
         {
             const string routeName = "ValidRoute";
-            var exception = Assert.Throws<ActionResultAssertionException>(() =>
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.ActionResultAssertionException>(() =>
                 _controller.WithCallTo(c => c.RedirectToRouteName()).ShouldRedirectToRoute(routeName)
             );
             Assert.That(exception.Message, Is.EqualTo(string.Format("Expected redirect to route '{0}', but instead was given a redirect to route '{1}'.", routeName, ControllerResultTestController.RouteName)));
@@ -181,7 +181,7 @@ namespace FluentMVCTesting.Tests
         [TestCaseSource("ActionRedirects")]
         public void Check_for_redirect_to_incorrect_controller(RedirectToActionTestMetadata test)
         {
-            var exception = Assert.Throws<ActionResultAssertionException>(() =>
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.ActionResultAssertionException>(() =>
                 test.Item2(_controller.WithCallTo(c => c.RedirectToAnotherController()))
             );
             Assert.That(exception.Message, Is.EqualTo("Expected redirect to controller 'ControllerResultTest', but instead was given a redirect to controller 'SomeOther'."));
@@ -191,7 +191,7 @@ namespace FluentMVCTesting.Tests
         [TestCaseSource("ActionRedirects")]
         public void Check_for_redirect_to_incorrect_action(RedirectToActionTestMetadata test)
         {
-            var exception = Assert.Throws<ActionResultAssertionException>(() =>
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.ActionResultAssertionException>(() =>
                 test.Item2(_controller.WithCallTo(c => c.RedirectToRandomResult()))
             );
             Assert.That(exception.Message, Is.EqualTo(string.Format("Expected redirect to action '{0}', but instead was given a redirect to action 'RandomResult'.", test.Item1)));
@@ -203,7 +203,7 @@ namespace FluentMVCTesting.Tests
         [TestCaseSource("ActionRedirects")]
         public void Check_for_redirect_to_empty_action(RedirectToActionTestMetadata test)
         {
-            var exception = Assert.Throws<ActionResultAssertionException>(() =>
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.ActionResultAssertionException>(() =>
                 test.Item2(_controller.WithCallTo(c => c.RedirectToRouteName()))
             );
             Assert.That(exception.Message, Is.EqualTo(string.Format("Expected redirect to action '{0}', but instead was given a redirect without an action.", test.Item1)));
@@ -219,7 +219,7 @@ namespace FluentMVCTesting.Tests
         [Test]
         public void Check_for_redirect_to_incorrect_other_controller()
         {
-            var exception = Assert.Throws<ActionResultAssertionException>(() =>
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.ActionResultAssertionException>(() =>
                 _controller.WithCallTo(c => c.RedirectToAnotherController()).ShouldRedirectTo<YetAnotherController>(c => c.SomeAction())
             );
             Assert.That(exception.Message, Is.EqualTo("Expected redirect to controller 'YetAnother', but instead was given a redirect to controller 'SomeOther'."));
@@ -228,7 +228,7 @@ namespace FluentMVCTesting.Tests
         [Test]
         public void Check_for_redirect_to_incorrect_action_in_another_controller()
         {
-            var exception = Assert.Throws<ActionResultAssertionException>(() =>
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.ActionResultAssertionException>(() =>
                 _controller.WithCallTo(c => c.RedirectToAnotherController()).ShouldRedirectTo<SomeOtherController>(c => c.SomeOtherAction())
             );
             Assert.That(exception.Message, Is.EqualTo("Expected redirect to action 'SomeOtherAction', but instead was given a redirect to action 'SomeAction'."));
@@ -250,7 +250,7 @@ namespace FluentMVCTesting.Tests
         [Test]
         public void Check_for_invalid_view_name_when_expecting_default_view()
         {
-            var exception = Assert.Throws<ActionResultAssertionException>(() =>
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.ActionResultAssertionException>(() =>
                 _controller.WithCallTo(c => c.RandomView()).ShouldRenderDefaultView()
             );
             Assert.That(exception.Message, Is.EqualTo(string.Format("Expected result view to be 'RandomView', but instead was given '{0}'.", ControllerResultTestController.RandomViewName)));
@@ -259,7 +259,7 @@ namespace FluentMVCTesting.Tests
         [Test]
         public void Check_for_invalid_view_name_when_expecting_default_partial()
         {
-            var exception = Assert.Throws<ActionResultAssertionException>(() =>
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.ActionResultAssertionException>(() =>
                 _controller.WithCallTo(c => c.RandomPartial()).ShouldRenderDefaultPartialView()
             );
             Assert.That(exception.Message, Is.EqualTo(string.Format("Expected result view to be 'RandomPartial', but instead was given '{0}'.", ControllerResultTestController.RandomViewName)));
@@ -275,7 +275,7 @@ namespace FluentMVCTesting.Tests
         [Test]
         public void Check_for_invalid_view_name()
         {
-            var exception = Assert.Throws<ActionResultAssertionException>(() =>
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.ActionResultAssertionException>(() =>
                 _controller.WithCallTo(c => c.RandomView()).ShouldRenderView(ControllerResultTestController.ViewName)
             );
             Assert.That(exception.Message, Is.EqualTo(string.Format("Expected result view to be '{0}', but instead was given '{1}'.", ControllerResultTestController.ViewName, ControllerResultTestController.RandomViewName)));
@@ -284,7 +284,7 @@ namespace FluentMVCTesting.Tests
         [Test]
         public void Check_for_invalid_partial_name()
         {
-            var exception = Assert.Throws<ActionResultAssertionException>(() =>
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.ActionResultAssertionException>(() =>
                 _controller.WithCallTo(c => c.RandomPartial()).ShouldRenderPartialView(ControllerResultTestController.PartialName)
             );
             Assert.That(exception.Message, Is.EqualTo(string.Format("Expected result view to be '{0}', but instead was given '{1}'.", ControllerResultTestController.PartialName, ControllerResultTestController.RandomViewName)));
@@ -320,7 +320,7 @@ namespace FluentMVCTesting.Tests
         [Test]
         public void Check_for_invalid_http_status()
         {
-            var exception = Assert.Throws<ActionResultAssertionException>(() =>
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.ActionResultAssertionException>(() =>
                 _controller.WithCallTo(c => c.StatusCode()).ShouldGiveHttpStatus(ControllerResultTestController.Code+1)
             );
             Assert.That(exception.Message, Is.EqualTo(string.Format("Expected HTTP status code to be '{0}', but instead received a '{1}'.", ControllerResultTestController.Code + 1, ControllerResultTestController.Code)));

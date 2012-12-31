@@ -25,7 +25,7 @@ namespace FluentMVCTesting.Tests
         public void Check_for_unexpected_model_errors()
         {
             _controller.ModelState.AddModelError("key", "error");
-            var exception = Assert.Throws<ViewResultModelAssertionException>(() =>
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.ViewResultModelAssertionException>(() =>
                 _modelTest.AndNoModelErrors()
             );
             Assert.That(exception.Message, Is.EqualTo("Expected controller 'ViewTestController' to have no model errors, but it had some."));
@@ -41,7 +41,7 @@ namespace FluentMVCTesting.Tests
         [Test]
         public void Check_for_unexpected_lack_of_model_error_in_key()
         {
-            var exception = Assert.Throws<ViewResultModelAssertionException>(() =>
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.ViewResultModelAssertionException>(() =>
                 _modelTest.AndModelError("Key")
             );
             Assert.That(exception.Message, Is.EqualTo("Expected controller 'ViewTestController' to have a model error against key 'Key', but none found."));
@@ -57,7 +57,7 @@ namespace FluentMVCTesting.Tests
         [Test]
         public void Check_for_execpected_lack_of_model_error_in_property()
         {
-            var exception = Assert.Throws<ViewResultModelAssertionException>(() =>
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.ViewResultModelAssertionException>(() =>
                 _modelTest.AndModelErrorFor(m => m.Property1)
             );
             Assert.That(exception.Message, Is.EqualTo("Expected controller 'ViewTestController' to have a model error for member 'Property1', but none found."));

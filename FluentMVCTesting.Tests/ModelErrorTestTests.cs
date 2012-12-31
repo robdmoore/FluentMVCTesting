@@ -12,7 +12,7 @@ namespace FluentMVCTesting.Tests
         public ModelErrorTestMetadata(string errorMessagePart, string validError1Value, string validError2Value, ModelErrorTestCall testCall)
             : base(errorMessagePart, validError1Value, validError2Value, testCall) {}
     }
-    delegate IModelTest<TestViewModel> ModelErrorTestCall(ModelErrorTest<TestViewModel> modelErrorTest, string input);
+    delegate TestStack.FluentMVCTesting.IModelTest<TestViewModel> ModelErrorTestCall(TestStack.FluentMVCTesting.ModelErrorTest<TestViewModel> modelErrorTest, string input);
 
     [TestFixture]
     class ModelErrorTestShould
@@ -60,7 +60,7 @@ namespace FluentMVCTesting.Tests
         [TestCaseSource("_tests")]
         public void Check_for_lack_of_matching_error_message(ModelErrorTestMetadata test)
         {
-            var exception = Assert.Throws<ModelErrorAssertionException>(() =>
+            var exception = Assert.Throws<TestStack.FluentMVCTesting.ModelErrorAssertionException>(() =>
                 test.Item4(_modelErrorTest, NonError)
             );
             Assert.That(exception.Message, Is.EqualTo(string.Format("{0} {1} '{2}', but instead found '{3}'.", _initialExceptionMessage, test.Item1, NonError, _combinedErrors)));
